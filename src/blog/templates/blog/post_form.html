@@ -1,0 +1,14 @@
+{% extends "blog/base.html" %}
+
+{% block head_title %}Nova publicação | {{ block.super }}{% endblock %}
+
+{% block conteudo %}
+    <div class="col-sm-6 col-sm-offset-3">
+        {% if form.instance.titulo %}<h1>Editar Publicação</h1>{% else %}<h1>Nova Publicação</h1>{% endif %}
+        <form method='POST' action='' enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type='submit' class="btn btn-default" value='{% if form.instance.titulo %}Editar Post{% else %}Criar Post{% endif %}' />
+        </form>
+    </div>
+{% endblock %}

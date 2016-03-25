@@ -1,0 +1,160 @@
+{% extends "blog/base.html" %}
+
+{% block head_title %}{{ block.super }}{% endblock %}
+
+{% block conteudo %}
+    <!-- Page Heading/Breadcrumbs -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Blog FEJESP
+                <small>Subheading</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href="index.html">FEJESP</a>
+                </li>
+                <li class="active">Blog</li>
+            </ol>
+        </div>
+    </div>
+    <!-- /.row -->
+
+    <div class="row">
+
+        <!-- Blog Entries Column -->
+        <div class="col-md-8">
+
+            {% for objeto in queryset %}
+                <!-- Postagem do Blog -->
+                <h2>
+                    <a href="{{ objeto.get_absolute_url }}">{{ objeto.titulo }}</a>
+                </h2>
+                <p class="lead">
+                    por <a href="index.php">{{ objeto.autor }}</a>
+                </p>
+                <p><i class="fa fa-clock-o"></i> Publicado em {{ objeto.data_publicacao }}</p>
+
+                <p class="lead"><strong>Staff:</strong>
+                <a class="btn btn-default" href="{% url 'blog:editar' slug=objeto.slug %}">Editar Post</a>
+                <a class="btn btn-danger" href="{% url 'blog:deletar' slug=objeto.slug %}">Deletar Post</a>
+                </p>
+
+                <hr>
+                {% if objeto.rascunho %}<h4 style="color:red;">Staff: Rascunho (Os usuários não verão esta publicação)</h4>{% endif %} {% if objeto.data_publicacao > hoje %}<h4>Staff: Este post está programado para ser publicado em {{ objeto.data_publicacao }}</h4>{% endif %}
+                {% if objeto.imagem %}
+                  <a href="{{ objeto.get_absolute_url }}">
+                    <img src="{{ objeto.imagem.url }}" class="img-responsive" alt="">
+                  </a>
+                  <hr>
+                {% endif %}
+                {{ objeto.conteudo|linebreaks|truncatechars:120 }}
+                <a class="btn btn-primary" href="{{ objeto.get_absolute_url }}">Ver Mais <i class="fa fa-angle-right"></i></a>
+
+                <hr>
+            {% endfor %}
+
+
+            <!-- Pager -->
+            <ul class="pager">
+                <li class="previous disabled">
+                    <a href="#">&larr; Older</a>
+                </li>
+                <li class="next">
+                    <a href="#">Newer &rarr;</a>
+                </li>
+            </ul>
+
+            <!-- Paginação -->
+            <div class="pagination">
+                <span class="step-links">
+                    <ul class="pager">
+                        {% if queryset.has_previous %}
+                            <li class="previous">
+                                <a href="?{{ pagina_request_var }}={{ queryset.previous_page_number }}{% if request.GET.pesquisa %}&q={{ request.GET.pesquisa }}{% endif %}">&larr; Anterior</a>
+                            </li>
+                        {% else %}
+                            <li class="previous disabled">
+                                <a href="#">&larr; Anterior</a>
+                            </li>
+                        {% endif %}
+
+                        <span class="current">
+                            Página {{ queryset.number }} de {{ queryset.paginator.num_pages }}.
+                        </span>
+
+                        {% if queryset.has_next %}
+                            <li class="next">
+                                <a href="?{{ pagina_request_var }}={{ queryset.next_page_number }}{% if request.GET.pesquisa %}&q={{ request.GET.pesquisa }}{% endif %}">Próxima &rarr;</a>
+                            </li>
+                        {% else %}
+                            <li class="next disabled">
+                                <a href="#">Próxima &rarr;</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </span>
+            </div>
+
+        </div>
+
+        <!-- Blog Sidebar Widgets Column -->
+        <div class="col-md-4">
+
+            <!-- Blog Search Well -->
+            <div class="well">
+                <h4>Pesquisar no Blog</h4>
+                <form action="" method="GET">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="pesquisa" value="{{ request.GET.pesquisa }}" placeholder="Pesquisar publicações">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button submit"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                </form>
+                <!-- /.input-group -->
+            </div>
+
+            <!-- Blog Categories Well -->
+            <div class="well">
+                <h4>Blog Categories</h4>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <ul class="list-unstyled">
+                            <li><a href="#">Category Name</a>
+                            </li>
+                            <li><a href="#">Category Name</a>
+                            </li>
+                            <li><a href="#">Category Name</a>
+                            </li>
+                            <li><a href="#">Category Name</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.col-lg-6 -->
+                    <div class="col-lg-6">
+                        <ul class="list-unstyled">
+                            <li><a href="#">Category Name</a>
+                            </li>
+                            <li><a href="#">Category Name</a>
+                            </li>
+                            <li><a href="#">Category Name</a>
+                            </li>
+                            <li><a href="#">Category Name</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.col-lg-6 -->
+                </div>
+                <!-- /.row -->
+            </div>
+
+            <!-- Side Widget Well -->
+            <div class="well">
+                <h4>Painel do Admin</h4>
+                <a href="{% url 'blog:criar' %}"><p>Criar nova publicação</p></a>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- /.row -->
+{% endblock %}
