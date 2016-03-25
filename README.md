@@ -27,12 +27,24 @@ No Windows, abra o **Prompt de Comando** e digite o comando `pip install virtual
 No Mac e Linux, abra o **Terminal** e digite o comando `sudo pip install virtualenv`.
 
 ## 2. Configuração
+#### Mac e Linux
 Abra o **Terminal**, e digite o comando:
 
 `virtualenv --no-site-packages --distribute -p python3 .env && source .env/bin/activate && pip install -r requisitos.txt`
 
+#### Windows
+Abra o **Prompt de Comando**, e digite o comando:
+
+`virtualenv --no-site-packages --distribute -p python3 .env && cd .env/ && .\Scripts\activate && cd ../ && pip install -r requisitos.txt`
+
 ## 3. Executar Sistema
-Por fim, para rodar o sistema, digite os comandos:
+Por fim, para rodar o sistema, digite os comandos na ordem:
+
+`python manage.py migrate`
+
+`python manage.py createsuperuser`
+
+`python manage.py makemigrations`
 
 `python manage.py migrate`
 
