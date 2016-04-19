@@ -33,10 +33,12 @@
                 </p>
                 <p><i class="fa fa-clock-o"></i> Publicado em {{ objeto.data_publicacao }}</p>
 
-                <p class="lead"><strong>Staff:</strong>
-                <a class="btn btn-default" href="{% url 'blog:editar' slug=objeto.slug %}">Editar Post</a>
-                <a class="btn btn-danger" href="{% url 'blog:deletar' slug=objeto.slug %}">Deletar Post</a>
-                </p>
+                {% if user.is_authenticated %}
+                  <p class="lead"><strong>Staff:</strong>
+                  <a class="btn btn-default" href="{% url 'blog:editar' slug=objeto.slug %}">Editar Post</a>
+                  <a class="btn btn-danger" href="{% url 'blog:deletar' slug=objeto.slug %}">Deletar Post</a>
+                  </p>
+                {% endif %}
 
                 <hr>
                 {% if objeto.rascunho %}<h4 style="color:red;">Staff: Rascunho (Os usuários não verão esta publicação)</h4>{% endif %} {% if objeto.data_publicacao > hoje %}<h4>Staff: Este post está programado para ser publicado em {{ objeto.data_publicacao }}</h4>{% endif %}
@@ -46,7 +48,7 @@
                   </a>
                   <hr>
                 {% endif %}
-                {{ objeto.conteudo|linebreaks|truncatechars:120 }}
+                {{ objeto.conteudo|linebreaks|truncatechars:120 }} <br><br>
                 <a class="btn btn-primary" href="{{ objeto.get_absolute_url }}">Ver Mais <i class="fa fa-angle-right"></i></a>
 
                 <hr>
@@ -147,11 +149,13 @@
                 <!-- /.row -->
             </div>
 
-            <!-- Side Widget Well -->
-            <div class="well">
-                <h4>Painel do Admin</h4>
-                <a href="{% url 'blog:criar' %}"><p>Criar nova publicação</p></a>
-            </div>
+            {% if user.is_authenticated %}
+              <!-- Side Widget Well -->
+              <div class="well">
+                  <h4>Painel do Admin</h4>
+                  <a href="{% url 'blog:criar' %}"><p>Criar nova publicação</p></a>
+              </div>
+            {% endif %}
 
         </div>
 

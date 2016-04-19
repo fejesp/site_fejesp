@@ -1,6 +1,6 @@
 {% extends "blog/base.html" %}
 
-{% block head_title %}Nova publicação | {{ block.super }}{% endblock %}
+{% block head_title %}{% if form.instance.titulo %}Editar publicação: {{ form.instance.titulo }} {% else %}Nova publicação{% endif %} | {{ block.super }}{% endblock %}
 
 {% block conteudo %}
     <div class="col-sm-6 col-sm-offset-3">

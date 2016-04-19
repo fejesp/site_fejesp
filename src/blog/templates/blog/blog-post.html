@@ -44,10 +44,13 @@
             <script src="//platform.linkedin.com/in.js" type="text/javascript"> lang: pt_BR</script>
             <script type="IN/Share" data-url="{{ request.build_absolute_uri }}" data-counter="right"></script>
 
-            <p class="lead"><strong>Staff:</strong>
-            <a class="btn btn-default" href="{% url 'blog:editar' slug=instancia.slug %}">Editar Post</a>
-            <a class="btn btn-danger" href="{% url 'blog:deletar' slug=instancia.slug %}">Deletar Post</a>
-            </p>
+            {% if user.is_authenticated %}
+              <p class="lead"><strong>Staff:</strong>
+              <a class="btn btn-default" href="{% url 'blog:editar' slug=instancia.slug %}">Editar Post</a>
+              <a class="btn btn-danger" href="{% url 'blog:deletar' slug=instancia.slug %}">Deletar Post</a>
+              </p>
+            {% endif %}
+
             <hr>
 
             <!-- Imagem da Postagem -->
@@ -119,11 +122,13 @@
                 <!-- /.row -->
             </div>
 
-            <!-- Side Widget Well -->
-            <div class="well">
-                <h4>Side Widget Well</h4>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore, perspiciatis adipisci accusamus laudantium odit aliquam repellat tempore quos aspernatur vero.</p>
-            </div>
+            {% if user.is_authenticated %}
+              <!-- Side Widget Well -->
+              <div class="well">
+                  <h4>Side Widget Well</h4>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore, perspiciatis adipisci accusamus laudantium odit aliquam repellat tempore quos aspernatur vero.</p>
+              </div>
+            {% endif %}
 
         </div>
 
